@@ -1,5 +1,5 @@
-import { Text, StyleSheet, View } from "react-native";
-import { GlobalStyles } from "../../constants/styles";
+import { Text, StyleSheet, View } from 'react-native';
+import { GlobalStyles } from '../../constants/styles';
 
 const ExpensesSummary = ({ expenses, periodName }) => {
 

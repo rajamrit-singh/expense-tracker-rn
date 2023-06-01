@@ -1,7 +1,7 @@
-import { Pressable } from "react-native";
-import { Text, StyleSheet, View } from "react-native"; 
-import { GlobalStyles } from "../../constants/styles";
-import { useNavigation } from "@react-navigation/native";
+import { Pressable } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native'; 
+import { GlobalStyles } from '../../constants/styles';
+import { useNavigation } from '@react-navigation/native';
 
 const ExpenseItem = ({ amount, date, description, id }) => {
     const navigation = useNavigation();

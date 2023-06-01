@@ -36,23 +36,23 @@ export default function App() {
         }}
       >
         <BottomTabs.Screen
-          name="RecentExpenses"
+          name='RecentExpenses'
           component={RecentExpenses}
           options={{
             title: 'Recent Expenses',
             tabBarLabel: 'Recent',
             tabBarIcon: ({ color, size }) => (
-              <FontAwesome name="hourglass-2" size={size} color={color} />
+              <FontAwesome name='hourglass-2' size={size} color={color} />
             ),
           }}
         />
         <BottomTabs.Screen
-          name="AllExpenses"
+          name='AllExpenses'
           component={AllExpenses}
           options={{
             title: 'All Expenses',
             tabBarLabel: 'All',
-            tabBarIcon: ({ color, size }) => <FontAwesome name="calendar" size={24} color="black" />,
+            tabBarIcon: ({ color, size }) => <FontAwesome name='calendar' size={24} color='black' />,
           }}
         />
       </BottomTabs.Navigator>
@@ -61,7 +61,7 @@ export default function App() {
 
   return (
     <>
-      <StatusBar style="light" />
+      <StatusBar style='light' />
       <ExpensesContextProvider>
       <NavigationContainer>
         <Stack.Navigator
@@ -72,12 +72,12 @@ export default function App() {
             headerTintColor: 'white',
           }}>
           <Stack.Screen
-            name="ExpensesOverview"
+            name='ExpensesOverview'
             component={ExpensesOverview}
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="ManageExpense"
+            name='ManageExpense'
             component={ManageExpense}
             options={{
               presentation: 'modal'
