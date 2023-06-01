@@ -1,12 +1,13 @@
 import { Text, StyleSheet, View, FlatList } from 'react-native'; 
 import { GlobalStyles } from '../../constants/styles';
 import ExpenseItem from './ExpenseItem';
+import { convertDateToString } from '../../utils/utils';
 
 const ExpensesList = ({ expenses }) => {
 
     const renderExpenseItem = (itemData) => {
         const dt = itemData.item.date;
-        const date = dt.getFullYear() + '/' + (dt.getMonth() + 1) + '/' + dt.getDate();
+        const date = convertDateToString(dt)
         return (
             <ExpenseItem
                 amount={itemData.item.amount}

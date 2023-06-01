@@ -1,14 +1,16 @@
 import { useContext, useLayoutEffect } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import IconButton from '../components/UI/IconButton';
 import { GlobalStyles } from '../constants/styles';
 import Button from '../components/UI/Button';
 import { ExpensesContext } from '../store/expenses-context';
+import ExpenseForm from '../components/ManageExpense/ExpenseForm';
 
 const ManageExpense = ({ route, navigation }) => {
     const editedExpenseId = route?.params?.expenseId;
-    const isEditing = !!editedExpenseId;
     const expensesCtx = useContext(ExpensesContext);
+    const expense = expensesCtx.expenses.find((expense) => expense.id === editedExpenseId);
+    const isEditing = !!editedExpenseId;
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -25,33 +27,25 @@ const ManageExpense = ({ route, navigation }) => {
         navigation.goBack();
     }
 
-    const confirmHandler = () => {
+    const confirmHandler = (expenseData) => {
         if (isEditing) {
-            expensesCtx.updateExpense(editedExpenseId, {
-                description: 'Test update',
-                amount: 35,
-                date: new Date()
-            });
+            expensesCtx.updateExpense(editedExpenseId, expenseData);
         } else {
-            expensesCtx.addExpense({
-                description: 'Test',
-                amount: 19.99,
-                date: new Date()
-            })
+            expensesCtx.addExpense(expenseData)
         }
         navigation.goBack();
     }
 
     return (
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        {/* added flexgrow to solve button overlapping input box when keyboard popup */}
         <View style={styles.container}>
-            <View style={styles.buttonsContainer}>
-                <Button mode='flat' onPress={cancelHandler} style={styles.button}>Cancel</Button>
-                <Button onPress={confirmHandler} style={styles.button}>{isEditing ? 'Update': 'Add'}</Button>
-            </View>
+            <ExpenseForm cancelHandler={cancelHandler} onSubmit={confirmHandler} isEditing={isEditing} defaultValue={expense}/>
             <View style={styles.deleteContainer}>
                 {isEditing && <IconButton icon='trash' color={GlobalStyles.colors.error500} size={36} onPress={deleteExpenseHandler}/>}
             </View>
         </View>
+        </ScrollView>
     )
 }
 
@@ -70,13 +64,4 @@ const styles = StyleSheet.create({
         botderTopColor: GlobalStyles.colors.primary200,
         alignItems: 'center'        
     },
-    buttonsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignContent: 'center'
-    },
-    button: {
-        minWidth: 120,
-        marginHorizontal: 8
-    }
 })
