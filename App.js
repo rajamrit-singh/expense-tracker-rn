@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
@@ -8,12 +8,15 @@ import ManageExpense from './screens/ManageExpense';
 import RecentExpenses from './screens/RecentExpenses';
 import { GlobalStyles } from './constants/styles';
 import { FontAwesome } from '@expo/vector-icons';
+import IconButton from './components/UI/IconButton';
+import ExpensesContextProvider from './store/expenses-context';
 
 const BottomTabs = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const ExpensesOverview = () => {
+
+  const ExpensesOverview = ({ navigation }) => {
     return (
       <BottomTabs.Navigator
         screenOptions={{
@@ -25,6 +28,11 @@ export default function App() {
             backgroundColor: GlobalStyles.colors.primary500,
           },
           tabBarActiveTintColor: GlobalStyles.colors.accent500,
+          headerRight: ({ tintColor }) => {
+            return (
+              <IconButton color={tintColor} size={24} onPress={() => navigation.navigate('ManageExpense')} icon='add' />
+            );
+          },
         }}
       >
         <BottomTabs.Screen
@@ -44,7 +52,7 @@ export default function App() {
           options={{
             title: 'All Expenses',
             tabBarLabel: 'All',
-            tabBarIcon: ({ color, size }) => <FontAwesome name="calendar" size={24} color="black" />
+            tabBarIcon: ({ color, size }) => <FontAwesome name="calendar" size={24} color="black" />,
           }}
         />
       </BottomTabs.Navigator>
@@ -54,16 +62,30 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
+      <ExpensesContextProvider>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: GlobalStyles.colors.primary500,
+            },
+            headerTintColor: 'white',
+          }}>
           <Stack.Screen
             name="ExpensesOverview"
             component={ExpensesOverview}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="ManageExpense" component={ManageExpense} />
+          <Stack.Screen
+            name="ManageExpense"
+            component={ManageExpense}
+            options={{
+              presentation: 'modal'
+            }}
+            />
         </Stack.Navigator>
       </NavigationContainer>
+      </ExpensesContextProvider>
     </>
   );
 }
