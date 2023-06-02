@@ -31,9 +31,7 @@ const ExpenseForm = ({ cancelHandler, onSubmit, isEditing, defaultValue }) => {
         const amountIsValid = !isNaN(expenseData?.amount) && expenseData.amount > 0;
         const dateIsValid = expenseData?.date?.toString() !== 'Invalid Date';
         const descriptionIsValid = expenseData?.description?.trim()?.length > 0;
-        // console.log('amount ', amountIsValid);
-        // console.log('dateIsValid ', dateIsValid);
-        // console.log('descriptionIsValid ', descriptionIsValid);
+
         console.log(descriptionIsValid)
         setInputs((curInputs) => {
             return {
@@ -73,6 +71,7 @@ const ExpenseForm = ({ cancelHandler, onSubmit, isEditing, defaultValue }) => {
                     }}
                 />
             </View>
+            <View>
             <Input
                 label='Description'
                 invalid={!inputs.description.isValid}
@@ -82,6 +81,8 @@ const ExpenseForm = ({ cancelHandler, onSubmit, isEditing, defaultValue }) => {
                     onChangeText: inputChangeHandler.bind(this, 'description'),
                     value: inputs.description.value
                 }} />
+            </View>
+
                 {(!formIsValid) && <Text style={styles.errorText}>Form is invalid</Text>}
                 <View style={styles.buttonsContainer}>
                 <Button mode='flat' onPress={cancelHandler} style={styles.button}>Cancel</Button>
@@ -110,7 +111,8 @@ const styles = StyleSheet.create({
     buttonsContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        alignContent: 'center'
+        alignContent: 'center',
+        marginTop: 2
     },
     errorText: {
         textAlign: 'center',
